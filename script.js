@@ -61,3 +61,28 @@ copyIcon.addEventListener('click', ()=>{
         }, 3000)
     }
 });
+
+// ... (existing code)
+
+let downloadBtn = document.getElementById("downloadBtn"); // Get the download button element
+
+downloadBtn.addEventListener('click', () => {
+    const generatedPassword = passBox.value; // Get the generated password
+    if (generatedPassword.length >= 1) {
+        // Create a Blob containing the password and configure a download link
+        const blob = new Blob([generatedPassword], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'generated_password.txt';
+        a.style.display = 'none';
+
+        // Append the link to the document and trigger the click event to start download
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean up by removing the link after download
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+});
